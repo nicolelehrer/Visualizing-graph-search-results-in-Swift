@@ -1,6 +1,8 @@
 import UIKit
 import XCPlayground
 
+
+
 var dict = Dictionary<Int,[Int]>()
 
 dict[1] = [2, 4]
@@ -18,10 +20,12 @@ dict[12] = [9]
 dict[13] = []
 
 var queue = [Int]()
+var circleViews = [UIView]()
+var circleRad:CGFloat = 50.0
 
-func checkChildren(currNode : Int, destination : Int) -> Int{
+func checkChildren(startNode : Int, destinationNode : Int) -> Int{
     
-    queue.append(currNode)
+    queue.append(startNode)
     
     while queue.count > 0{
         
@@ -31,7 +35,7 @@ func checkChildren(currNode : Int, destination : Int) -> Int{
             println("no where to go")
             return 0
         }
-        if contains(arr, destination){
+        if contains(arr, destinationNode){
             println("destination found via current node \(queue[0])")
             return queue[0]
         }
@@ -51,16 +55,6 @@ func printOutArray([Int]){
     }
 }
 
-var start = 1
-var stop = 10
-var ans = 0
-
-while( ans != start){
-    ans = checkChildren(1, stop)
-    stop = ans
-}
-
-
 ////////////
 
 
@@ -71,54 +65,131 @@ containerView.backgroundColor = UIColor.grayColor()
 XCPShowView("View Identifier", containerView)
 
 
+func addLabelToFrame(aFrame:CGRect, title:String){
+    let nodeTitle:UILabel = UILabel(frame: aFrame)
+    nodeTitle.textAlignment = NSTextAlignment.Center
+    nodeTitle.font =  UIFont(name: "Helvetica", size: 20)
+    nodeTitle.text = title
+    containerView.addSubview(nodeTitle)
+}
 
-func makeCirclesWith(count : Int){
-//    var i = 0
-    for(var i = 0; i < count; i++){
-        let circleRad:CGFloat = 150.0
-        let circleFrame:CGRect = CGRect(x: containerFrame.width/2, y: containerFrame.height/2, width: circleRad, height: circleRad)
-        let circleView = UIView(frame: circleFrame)
-        circleView.layer.cornerRadius = circleRad/2
-        circleView.backgroundColor = UIColor.whiteColor()
-        containerView.addSubview(circleView)
+
+func makeCirclesInGridWith(rowDim : Int, colDim : Int){
+    var count:Int = 0
+    for(var i = 0; i < colDim; i++){
+        for(var j = 0; j < rowDim; j++){
+            count++
+            let spacer:CGFloat = 20.0
+            let circleFrame:CGRect = CGRect(x: CGFloat(i)*(circleRad+spacer),
+                                        y: CGFloat(j)*(circleRad+spacer),
+                                        width: circleRad,
+                                        height: circleRad)
+            
+            let circleView = UIView(frame: circleFrame)
+            circleView.layer.cornerRadius = circleRad/2
+            circleView.backgroundColor = UIColor.whiteColor()
+            containerView.addSubview(circleView)
+            addLabelToFrame(circleFrame, "\(count)")
+//            addEdgesToFrame(circleFrame)
+//            drawEdgeFrom(circleFrame.origin, CGPointMake(100, 100))
+            circleView.tag = count
+            circleViews.append(circleView)
+        }
     }
 }
 
-makeCirclesWith(12)
+func addEdgesToViews(views:[UIView]){
+    for aView:UIView in views{
+        
+        var edges:Array = dict[aView.tag]!
+        for (var i=0; i<edges.count; i++){
+            
+            var aTag:Int = edges[i]
+            let nextView:UIView = views[aTag-1]
+            
+            drawEdgeFrom(aView.layer.position, nextView.layer.position)
+        }
+    }
+}
+
+func drawEdgeFrom(startPos:CGPoint, endPos:CGPoint){
+    var path:UIBezierPath = UIBezierPath()
+    path.moveToPoint(startPos)
+    path.addLineToPoint(endPos)
+    
+    var layer:CAShapeLayer = CAShapeLayer()
+    layer.path = path.CGPath
+    layer.strokeColor = UIColor.orangeColor().CGColor
+    layer.lineWidth = 2.0
+    layer.fillColor = UIColor.clearColor().CGColor
+    
+    containerView.layer.addSublayer(layer)
+    
+    
+//    addCurveToPoint(CGPointMake(0, 100), CGPointMake(100, 100), CGPointMake(100, 0))
+
+    
+}
 
 
 
 
-/*
-let nodeTitle:UILabel = UILabel(frame: circleFrame)
-nodeTitle.textAlignment = NSTextAlignment.Center
-
-nodeTitle.font =  UIFont(name: "Helvetica", size: 50)
-nodeTitle.text = "A"
-
-containerView.addSubview(nodeTitle)
 
 
-let edgeFrame:CGRect = CGRect(x:containerFrame.width/2, y: containerFrame.height/2, width:10, height:100)
+func highLightViewWithTag(tag:Int){
+    circleViews[tag-1].backgroundColor = UIColor.yellowColor()
+}
 
-let edgeView:UIView = UIView(frame: edgeFrame)
-
-edgeView.backgroundColor = UIColor.orangeColor()
-
-edgeView.layer.transform = CATransform3DMakeRotation(45, 0, 0, 1)
-
-
-containerView.addSubview(edgeView)
-
-*/
+//////
 
 
 
 
+makeCirclesInGridWith(3, 4)
+addEdgesToViews(circleViews)
+
+containerView.subviews.count
+
+var start = 1
+var stop = 10
+var ans = 0
+
+while( ans != start){
+    ans = checkChildren(1, stop)
+    stop = ans
+    highLightViewWithTag(stop)
+}
+
+highLightViewWithTag(10)
 
 
 
 
 
+
+
+///////////////////UI Bezier test
+
+
+
+
+//
+//
+//var curverPath:UIBezierPath = UIBezierPath()
+//curverPath.moveToPoint(CGPointMake(0, 0))
+////curverPath.addLineToPoint(CGPointMake(100, 100))
+//
+//curverPath.addCurveToPoint(CGPointMake(200, 200), controlPoint1: CGPointMake(50, 150), controlPoint2: CGPointMake(100, 100))
+//
+//var curveLayer:CAShapeLayer = CAShapeLayer()
+//curveLayer.path = curverPath.CGPath
+//curveLayer.strokeColor = UIColor.redColor().CGColor
+//curveLayer.lineWidth = 2.0
+//curveLayer.fillColor = UIColor.clearColor().CGColor
+//
+//
+//
+//
+//containerView.layer.addSublayer(curveLayer)
 
 
