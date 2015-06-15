@@ -21,7 +21,7 @@ dict[13] = []
 
 var queue = [Int]()
 var circleViews = [UIView]()
-var circleRad:CGFloat = 50.0
+var circleRad:CGFloat = 100.0
 
 func checkChildren(startNode : Int, destinationNode : Int) -> Int{
     
@@ -166,30 +166,36 @@ highLightViewWithTag(10)
 
 
 
+let c1:CGPoint = circleViews[8].layer.position
+let c2:CGPoint = circleViews[10].layer.position
 
 
-///////////////////UI Bezier test
+//let c1View:UIView = UIView(frame: CGRectMake(c1.x, c1.y, 20, 20))
+//c1View.backgroundColor = UIColor.whiteColor()
+//containerView.addSubview(c1View)
+//
+//let c2View:UIView = UIView(frame: CGRectMake(c2.x, c2.y, 20, 20))
+//c2View.backgroundColor = UIColor.redColor()
+//containerView.addSubview(c2View)
+
+var curverPath:UIBezierPath = UIBezierPath()
+curverPath.moveToPoint(circleViews[6-1].layer.position)
+
+curverPath.addCurveToPoint(circleViews[10-1].layer.position, controlPoint1: c1, controlPoint2: c2)
+
+var curveLayer:CAShapeLayer = CAShapeLayer()
+curveLayer.path = curverPath.CGPath
+curveLayer.strokeColor = UIColor.orangeColor().CGColor
+curveLayer.lineWidth = 4.0
+curveLayer.fillColor = UIColor.clearColor().CGColor
 
 
 
 
-//
-//
-//var curverPath:UIBezierPath = UIBezierPath()
-//curverPath.moveToPoint(CGPointMake(0, 0))
-////curverPath.addLineToPoint(CGPointMake(100, 100))
-//
-//curverPath.addCurveToPoint(CGPointMake(200, 200), controlPoint1: CGPointMake(50, 150), controlPoint2: CGPointMake(100, 100))
-//
-//var curveLayer:CAShapeLayer = CAShapeLayer()
-//curveLayer.path = curverPath.CGPath
-//curveLayer.strokeColor = UIColor.redColor().CGColor
-//curveLayer.lineWidth = 2.0
-//curveLayer.fillColor = UIColor.clearColor().CGColor
-//
-//
-//
-//
-//containerView.layer.addSublayer(curveLayer)
+containerView.layer.addSublayer(curveLayer)
+
+
+
+
 
 
