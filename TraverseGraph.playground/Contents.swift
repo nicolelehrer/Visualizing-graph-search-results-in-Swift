@@ -165,17 +165,23 @@ for(var i = 0; i<someGraph.path.count; i++){
 
 someGraph.path
 
+func doAnimate(var tag:Int){
+    if (tag < someGraph.path.count){
+        UIView.animateWithDuration(0.5, animations: {
+            let testView:UIView = circleViews[someGraph.path[tag]-1]
+            testView.backgroundColor = UIColor.redColor()
 
-let testView:UIView = circleViews[0]
-
-UIView.animateWithDuration(2.0, animations: { () -> Void in
-    for(var i:Int = 0; i<someGraph.path.count; i++){
-        
+            }, completion: {
+                (value: Bool) in
+                println("hello")
+                tag = tag+1
+                doAnimate(tag)
+        })
     }
-    testView.backgroundColor = UIColor.redColor()
-})
+}
 
 
+doAnimate(0)
 
 
 
