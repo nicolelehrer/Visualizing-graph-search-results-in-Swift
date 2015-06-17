@@ -12,10 +12,9 @@ class Search {
     
     var parents = Dictionary<Int,Int>()
     var queue = [Int]()
-//    var currentNode:Int = 1
-//    var target:Int = 10
     var pathResult = [Int]()
     var visited = [Int]()
+    var specialCases = [Int]()
 
     var dict = Dictionary<Int,[Int]>()
 
@@ -33,6 +32,12 @@ class Search {
         dict[11] = [10]
         dict[12] = [9]
         dict[13] = []
+        specialCases = [6, 10]
+    }
+    
+    init(test:String){
+        println("test pass from init " + test)
+        setAdjacents()
     }
     
     func printOutArray(arr:[Int]){
@@ -44,13 +49,11 @@ class Search {
 
      func findPath(var currentNode:Int, var target:Int){
         
-        setAdjacents()
-        
         queue.append(currentNode)
         
         while queue.count > 0{
-            
-            printOutArray(queue)
+
+            printOutArray(visited)
             
             currentNode = queue[0]
             
@@ -86,5 +89,16 @@ class Search {
                 }
             }
         }
+    }
+    
+    
+    func getPath(var start:Int, var target:Int) -> [Int]{
+        var node = target
+        while (node != start){
+            pathResult.append(node)
+            node = parents[node]!
+        }
+        pathResult.append(start)
+        return pathResult.reverse()
     }
 }
