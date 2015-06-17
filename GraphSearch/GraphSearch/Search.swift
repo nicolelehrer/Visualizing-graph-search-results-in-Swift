@@ -99,6 +99,6 @@ class Search {
             node = parents[node]!
         }
         pathResult.append(start)
-        return pathResult.reverse()
+        return pathResult
     }
 }

@@ -16,7 +16,10 @@ var circleRad:CGFloat = 60.0
 var aSearch:Search = Search(test: "hello")
 
 var stepper = 0
+var startNode = 1
+var stopNode = 10
 
+var solutionNodes = [Int]()
 
 class ViewController: UIViewController {
 
@@ -40,7 +43,8 @@ class ViewController: UIViewController {
         
         
         self.view.addSubview(containerView)
-        aSearch.findPath(1,target: 10)
+        aSearch.findPath(startNode,target: stopNode) //awful names - rename - this gives you queue and visited
+        solutionNodes = aSearch.getPath(startNode, target: stopNode) // this gives you solution
 
         makeCirclesInGridWith(3, colDim: 4)
         addEdgesToViews(circleViews)
@@ -185,54 +189,72 @@ class ViewController: UIViewController {
     
     
     
-    func highLightViewWithTag(tag:Int){
-        circleViews[tag-1].backgroundColor = UIColor(red: CGFloat(tag)/10.0, green: CGFloat(tag)/10.0, blue: CGFloat(tag)/10.0, alpha: 1.0)
+    func highLightViewWithTag(tag:Int, color:UIColor){
+        circleViews[tag-1].backgroundColor = color
+//        solutionNodes
         
-        println(aSearch.getPath(1, target: 10))
     }
     
     
     func animate() {
-        //println(aSearch.visited)
-        highLightViewWithTag(aSearch.visited[stepper])
-        stepper++
+        //traverse visited
+//        if(contains(solutionNodes, aSearch.visited[stepper])){
+//            highLightViewWithTag(aSearch.visited[stepper], color: UIColor.orangeColor())
+        
+        if(stepper < aSearch.visited.count){
+        
+            highLightViewWithTag(aSearch.visited[stepper], color: UIColor(red: CGFloat(stepper)/10.0,
+                                                                green: CGFloat(stepper)/10.0,
+                                                                blue: CGFloat(stepper)/10.0,
+                                                                alpha: 1.0))
+            stepper++
+    
+    
+    }
+        
+        if(stepper==aSearch.visited.count){
+//            highLightViewWithTag(aSearch.visited[stepper], color: UIColor.orangeColor())
+            doAnimate(0)
+//            println(solutionNodes)
+        }
+
+}
+
+
+    func doAnimate(var tag:Int){
+        
+        println(tag)
+        
+        if (tag < solutionNodes.count){
+            
+            println("tag is less than count")
+
+            UIView.animateWithDuration(0.5, animations: {
+                let testView:UIView = circleViews[solutionNodes[tag]-1]
+                testView.backgroundColor = UIColor.orangeColor()
+                
+                }, completion: {
+                    (value: Bool) in
+                    tag = tag+1
+                    self.doAnimate(tag)
+            })
+        }
     }
     
     
-    
-    
-    ////
-    
-    
-//    func doAnimate(var tag:Int){
-//        if (tag < aSearch.path.count){
-//            UIView.animateWithDuration(0.5, animations: {
-//                let testView:UIView = circleViews[someGraph.path[tag]-1]
-//                testView.backgroundColor = UIColor.redColor()
-//                
-//                }, completion: {
-//                    (value: Bool) in
-//                    println("hello")
-//                    tag = tag+1
-//                    doAnimate(tag)
-//            })
-//        }
-//    }
-    
-    
 
     
     
     
-    
-    
-
-    
-    
-    
-    
-
 }
+
+
+
+    
+    
+    
+
+
 
 
 
