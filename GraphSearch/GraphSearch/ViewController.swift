@@ -33,12 +33,11 @@ class ViewController: UIViewController {
         containerView = UIView(frame: containerFrame)
         containerView.backgroundColor = UIColor.grayColor()
 
-        button.frame = CGRectMake(containerView.frame.size.width/2-100/2, containerView.frame.size.height-50, 100, 50)
-//        button.backgroundColor = UIColor.whiteColor()
+        button.frame = CGRectMake(containerView.frame.size.width/2-100/2, containerView.frame.size.height-200, 100, 50)
         button.setTitle("STEPPER", forState: UIControlState.Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         containerView.addSubview(button)
-        button.addTarget(self, action: "animate", forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: "step", forControlEvents: UIControlEvents.TouchUpInside)
         containerView.addSubview(button)
         
         
@@ -196,39 +195,28 @@ class ViewController: UIViewController {
     }
     
     
-    func animate() {
-        //traverse visited
-//        if(contains(solutionNodes, aSearch.visited[stepper])){
-//            highLightViewWithTag(aSearch.visited[stepper], color: UIColor.orangeColor())
-        
+    func step() {
+        println(aSearch.visited)
         if(stepper < aSearch.visited.count){
-        
+            println(aSearch.visited[stepper])
             highLightViewWithTag(aSearch.visited[stepper], color: UIColor(red: CGFloat(stepper)/10.0,
                                                                 green: CGFloat(stepper)/10.0,
                                                                 blue: CGFloat(stepper)/10.0,
                                                                 alpha: 1.0))
-            stepper++
-    
-    
-    }
-        
-        if(stepper==aSearch.visited.count){
-//            highLightViewWithTag(aSearch.visited[stepper], color: UIColor.orangeColor())
-            doAnimate(0)
-//            println(solutionNodes)
         }
+        if(stepper == aSearch.visited.count){
+            doAnimate(0)
+        }
+        
+        stepper++
 
 }
 
 
     func doAnimate(var tag:Int){
         
-        println(tag)
-        
         if (tag < solutionNodes.count){
             
-            println("tag is less than count")
-
             UIView.animateWithDuration(0.5, animations: {
                 let testView:UIView = circleViews[solutionNodes[tag]-1]
                 testView.backgroundColor = UIColor.orangeColor()

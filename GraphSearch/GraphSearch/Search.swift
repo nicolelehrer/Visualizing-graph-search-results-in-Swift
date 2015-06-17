@@ -78,12 +78,13 @@ class Search {
                     //child is key, value is parent
                     parents[children[i]] = currentNode
                     
+                    visited.append(children[i])
+                    
                     if (children[i] == target){
                         println("target found at \(currentNode)")
                         return
                     }
                     
-                    visited.append(children[i])
                     queue.append(children[i])
                     
                 }
