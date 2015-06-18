@@ -21,10 +21,18 @@ var stopNode = 10
 
 var solutionNodes = [Int]()
 
+var pickNodeState = 0
+
 class ViewController: UIViewController {
 
     
     var button = UIButton.buttonWithType(UIButtonType.System) as! UIButton
+ 
+    func calcGraph(){
+        aSearch.findPath(startNode,target: stopNode) //awful names - rename - this gives you queue and visited
+        solutionNodes = aSearch.getPath(startNode, target: stopNode) // this gives you solution
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,16 +47,12 @@ class ViewController: UIViewController {
         containerView.addSubview(button)
         button.addTarget(self, action: "step", forControlEvents: UIControlEvents.TouchUpInside)
         containerView.addSubview(button)
-        
-        
-        self.view.addSubview(containerView)
-        aSearch.findPath(startNode,target: stopNode) //awful names - rename - this gives you queue and visited
-        solutionNodes = aSearch.getPath(startNode, target: stopNode) // this gives you solution
 
+        self.view.addSubview(containerView)
+        
+        calcGraph()
         makeCirclesInGridWith(3, colDim: 4)
         addEdgesToViews(circleViews)
-    
-        
         
 //        for(var i = 0; i<aSearch.path.count; i++){
 //            highLightViewWithTag(aSearch.path[i])
@@ -70,19 +74,19 @@ class ViewController: UIViewController {
         containerView.addSubview(nodeTitle)
     }
     
-    class Node: UIView {
-        
-        override init(frame: CGRect) {
-            super.init(frame: frame)
-            self.backgroundColor = UIColor.redColor()
-            self.layer.cornerRadius = frame.width/2
-            
-        }
-        required init(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
-        
-    }
+//    class Node: UIView {
+//        
+//        override init(frame: CGRect) {
+//            super.init(frame: frame)
+//            self.backgroundColor = UIColor.whiteColor()
+//            self.layer.cornerRadius = frame.width/2
+//            
+//        }
+//        required init(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//        
+//    }
     
     func makeCirclesInGridWith(rowDim : Int, colDim : Int){
 
@@ -97,24 +101,45 @@ class ViewController: UIViewController {
                                                 width: circleRad,
                                                 height: circleRad)
                 
-                let aNode:Node = Node(frame: circleFrame)
-                aNode.backgroundColor = UIColor.whiteColor()
                 
-                aNode.layer.borderWidth = 4.0
-                aNode.layer.borderColor = UIColor.orangeColor().CGColor
+                var buttonNode = UIButton.buttonWithType(.Custom) as! UIButton
+                buttonNode.frame = circleFrame
+                buttonNode.backgroundColor = UIColor.whiteColor()
+                buttonNode.layer.cornerRadius = buttonNode.frame.width/2
+                buttonNode.layer.borderWidth = 4.0
+                buttonNode.layer.borderColor = UIColor.orangeColor().CGColor
+                buttonNode.addTarget(self, action: "nodeSelected:", forControlEvents: .TouchUpInside)
+
+
+                containerView.addSubview(buttonNode)
                 
-                containerView.addSubview(aNode)
                 //need to do this in order to arrage z position of layers
-                
-                containerView.layer.addSublayer(aNode.layer)
+                containerView.layer.addSublayer(buttonNode.layer)
                 
                 addLabelToFrame(circleFrame, title: "\(count)")
-                aNode.tag = count
-                circleViews.append(aNode)
+                buttonNode.tag = count
+                circleViews.append(buttonNode)
             }
         }
     }
     
+    
+    
+    func nodeSelected(sender:AnyObject){
+        if (pickNodeState == 0){
+            startNode = sender.tag
+            println("new start node is \(sender.tag)")
+            pickNodeState = 1
+        }
+        else{
+            stopNode = sender.tag
+            println("new stop node is \(sender.tag)")
+            pickNodeState = 0
+        }
+
+        //calcGraph()
+        //self.view.setNeedsDisplay()
+    }
     
     func drawCurvedEdgeForCases(cases:[Int]){
         
@@ -196,9 +221,9 @@ class ViewController: UIViewController {
     
     
     func step() {
-        println(aSearch.visited)
+       // println(aSearch.visited)
         if(stepper < aSearch.visited.count){
-            println(aSearch.visited[stepper])
+          //  println(aSearch.visited[stepper])
             highLightViewWithTag(aSearch.visited[stepper], color: UIColor(red: CGFloat(stepper)/10.0,
                                                                 green: CGFloat(stepper)/10.0,
                                                                 blue: CGFloat(stepper)/10.0,
@@ -209,7 +234,6 @@ class ViewController: UIViewController {
         }
         
         stepper++
-
 }
 
 
@@ -221,7 +245,7 @@ class ViewController: UIViewController {
                 let testView:UIView = circleViews[solutionNodes[tag]-1]
                 testView.backgroundColor = UIColor.orangeColor()
                 
-                }, completion: {
+            }, completion: {
                     (value: Bool) in
                     tag = tag+1
                     self.doAnimate(tag)
