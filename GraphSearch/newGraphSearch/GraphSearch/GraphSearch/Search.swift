@@ -34,6 +34,21 @@ class Search{
         dict[13] = []
     }
     
+    
+    func checkIfNodeConnected(node:Int)->Bool{
+        for key in dict.keys {
+            if let valuesArray = dict[key]{
+                if valuesArray.contains(node) {
+                    return true
+                }
+            }
+            else{
+                print("key doesn't exist")
+            }
+        }
+        return false
+    }
+    
     func breadthFirstSearch(var currentNode:Int, target:Int){
         
         
@@ -44,21 +59,24 @@ class Search{
             currentNode = queue[0]
             queue.removeAtIndex(0)
             
-            if let children = dict[currentNode] { //are their child nodes
-                if !visited.contains(currentNode){
-                    visited.append(currentNode)   //only add nodes not yet visited
-                }
-                for child in children{
-                    if !visited.contains(child){
-                        parents[child] = currentNode  //child is key, value is parent
-                        visited.append(child)
-                        queue.append(child)
-                    }
-                    
-                }
-
+            var children = [Int]()
+            if dict[currentNode] != nil { //are there child nodes
+               children = dict[currentNode]!
+            }else{
+                print("no children")
             }
             
+            if !visited.contains(currentNode){
+                visited.append(currentNode)   //only add nodes not yet visited
+            }
+            
+            for child in children{
+                if !visited.contains(child){
+                    parents[child] = currentNode  //child is key, value is parent
+                    visited.append(child)
+                    queue.append(child)
+                }
+            }
         }
     }
     
@@ -80,16 +98,29 @@ class Search{
     }
     
     func emptyPreviousResults(){
+        
+        if queue.count>0{
+            queue.removeAll()
+        }
+        
         if pathResult.count>0{
             pathResult.removeAll()
         }
         if visited.count>0{
             visited.removeAll()
         }
+        
     }
     
-    func returnPathUsingBFS(startNode:Int, endNode:Int) -> [Int]{
-        breadthFirstSearch(startNode, target: endNode)
-        return getPath(startNode, target: endNode)
+    func returnPathUsingBFS(startNode:Int, endNode:Int) -> [Int]?{
+        
+        if checkIfNodeConnected(startNode) && checkIfNodeConnected(endNode){
+            breadthFirstSearch(startNode, target: endNode)
+            return getPath(startNode, target: endNode)
+        }
+        else{
+            print("one of the selected nodes is not connected to the graph")
+            return nil
+        }
     }
 }

@@ -10,7 +10,6 @@ import UIKit
 
 class ViewController: UIViewController {
 
-//    var containerFrame:CGRect = CGRect(x: 0, y: 0, width: 0, height: 0)
     var circleViews = [UIView]()
     var circleRad:CGFloat = 60.0
     
@@ -23,8 +22,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         search.setAdjacents()
-        let sol = search.returnPathUsingBFS(startNode, endNode:stopNode)
-        print(sol)
+        if let sol = search.returnPathUsingBFS(startNode, endNode:stopNode){
+            print(sol)
+        }
         
         
         circlesInGridWith(4, colDim: 4)
@@ -101,10 +101,10 @@ class ViewController: UIViewController {
     }
    
     @IBAction func recalc(sender:UIButton){
-    
         search.emptyPreviousResults()
-        let sol = search.returnPathUsingBFS(startNode, endNode:stopNode)
-        print(sol)
+        if let sol = search.returnPathUsingBFS(startNode, endNode:stopNode){
+            print(sol)
+        }
     }
     
     
