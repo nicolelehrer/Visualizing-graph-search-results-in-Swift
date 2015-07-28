@@ -71,19 +71,18 @@ class ViewController: UIViewController {
     
     func edgesBetweenCircles(views:[UIView]){
         for aView in views{
-            var edges = [Int]()
-            if (search.dict[aView.tag] != nil){
-                edges = search.dict[aView.tag]!
-            }
-            else{
-                edges = [0]
-            }
-            for (var i=0; i < edges.count; i++){
-                let aTag:Int = edges[i]
-                let nextView:UIView = views[aTag-1]
-                let edge = drawEdgeFrom(aView.layer.position, endPos: nextView.layer.position)
-                view.layer.addSublayer(edge)
-
+            if let children = search.dict[aView.tag] {
+                for child in children{
+                    let aTag = child
+                    let nextView = views[aTag-1]
+                    
+                    if(calcDistanceBetweenPoints(aView.layer.position, pointB:nextView.layer.position)<100){
+                        view.layer.addSublayer(drawEdgeFrom(aView.layer.position, endPos: nextView.layer.position))
+                    }
+                    else{
+                        view.layer.addSublayer(drawCurvedEdgeFrom(aView.layer.position, endPos: nextView.layer.position))
+                    }
+                }
             }
         }
     }
@@ -99,10 +98,50 @@ class ViewController: UIViewController {
         layer.lineWidth = 4.0
         layer.fillColor = UIColor.clearColor().CGColor
         layer.zPosition = -1
-        view.layer.addSublayer(layer)
         return layer
     }
     
+    func drawCurvedEdgeFrom(startPos:CGPoint, endPos:CGPoint) -> CAShapeLayer{
+        
+        let midPoint = calcMidpointBetweenPoints(startPos, pointB:endPos)
+        let c1 = CGPointMake(midPoint.x+50, midPoint.y+50)
+        let c2 = c1
+        
+        let curverPath = UIBezierPath()
+        curverPath.moveToPoint(startPos)
+        curverPath.addCurveToPoint(endPos, controlPoint1: c1, controlPoint2: c2)
+        
+        let curveLayer = CAShapeLayer()
+        curveLayer.path = curverPath.CGPath
+        curveLayer.strokeColor = UIColor(red: 204/255.0, green: 85/255.0, blue: 0.0, alpha: 1).CGColor
+        curveLayer.lineWidth = 4.0
+        curveLayer.fillColor = UIColor.clearColor().CGColor
+        
+        curveLayer.zPosition = -1
+        return curveLayer
+    }
+    
+    
+    func calcDistanceBetweenPoints(pointA:CGPoint, pointB:CGPoint)->Float{
+        return fabs(Float(sqrt(pow(pointA.x, 2)+pow(pointA.y, 2)) - sqrt(pow(pointB.x, 2)+pow(pointB.y, 2))))
+    }
+    
+    
+    func findStartComponent(componentA:CGFloat, componentB:CGFloat)->CGFloat{
+        if(componentA - componentB) < 0 {
+            return componentA
+        }
+        return componentB
+    }
+    
+    func calcMidpointBetweenPoints(pointA:CGPoint, pointB:CGPoint)->CGPoint{
+        
+        //since ur taking the abs delta, need to add to smaller component
+        let startPoint = CGPointMake(findStartComponent(pointA.x, componentB: pointB.x), findStartComponent(pointA.y, componentB: pointB.y))
+        
+        return CGPointMake(fabs(CGFloat(pointA.x - pointB.x))/2+startPoint.x, fabs(CGFloat(pointA.y - pointB.y))/2+startPoint.y)
+    }
+
 
     func buttonMaker(frame:CGRect) -> UIButton{
         let button = UIButton(type:.Custom)

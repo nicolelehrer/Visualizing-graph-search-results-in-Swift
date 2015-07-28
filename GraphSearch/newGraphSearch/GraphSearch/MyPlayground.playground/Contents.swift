@@ -111,17 +111,8 @@ sortedKeys
 
 
 
+pow(4.0, 0.5)
 
-
-
-
-let fixColCount = 4
-let spacer:CGFloat = 20.0
-
-let something = Float(560)
-let somethingelse = Float(fixColCount)*Float(20)*Float(spacer)
-
-somethingelse
 
 
 //let offSet:CGPoint = CGPointMake(CGFloat((something - somethingelse)/2), 50)
