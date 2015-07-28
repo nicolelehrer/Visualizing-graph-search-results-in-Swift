@@ -76,12 +76,16 @@ class ViewController: UIViewController {
                     let aTag = child
                     let nextView = views[aTag-1]
                     
-                    if(calcDistanceBetweenPoints(aView.layer.position, pointB:nextView.layer.position)<100){
+                    if(calcDistanceBetweenPoints(aView.layer.position, pointB:nextView.layer.position)<115){
                         view.layer.addSublayer(drawEdgeFrom(aView.layer.position, endPos: nextView.layer.position))
                     }
                     else{
                         view.layer.addSublayer(drawCurvedEdgeFrom(aView.layer.position, endPos: nextView.layer.position))
                     }
+                    
+                    print("\(aView.tag)  \(nextView.tag)")
+                    print(calcDistanceBetweenPoints(aView.layer.position, pointB:nextView.layer.position))
+
                 }
             }
         }
@@ -119,11 +123,16 @@ class ViewController: UIViewController {
         
         curveLayer.zPosition = -1
         return curveLayer
+        
+        /* to determine control points better -
+        could do collision detection using sprite kit and draw control point where no nodes are
+        and/or take into acount the arctan of the two points to get angle for dot position
+        final problem is that i am repeating paths in both directions*/
     }
-    
-    
-    func calcDistanceBetweenPoints(pointA:CGPoint, pointB:CGPoint)->Float{
-        return fabs(Float(sqrt(pow(pointA.x, 2)+pow(pointA.y, 2)) - sqrt(pow(pointB.x, 2)+pow(pointB.y, 2))))
+
+
+    func calcDistanceBetweenPoints(pointA:CGPoint, pointB:CGPoint)->CGFloat{
+        return sqrt(pow(pointA.x-pointB.x, 2)+pow(pointA.y-pointB.y, 2))
     }
     
     

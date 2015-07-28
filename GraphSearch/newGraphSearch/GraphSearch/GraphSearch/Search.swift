@@ -21,7 +21,7 @@ class Search{
     func setAdjacents(){
         dict[1] = [2, 4]
         dict[2] = [1,3,5]
-        dict[3] = [2]
+        dict[3] = [2, 11, 13]
         dict[4] = [1,7]
         dict[5] = [2,6,8]
         dict[6] = [5,9,10]
@@ -29,9 +29,9 @@ class Search{
         dict[8] = [5]
         dict[9] = [6,12]
         dict[10] = [6,11]
-        dict[11] = [10]
+        dict[11] = [10, 3]
         dict[12] = [9]
-        dict[13] = []
+        dict[13] = [3]
     }
     
     
