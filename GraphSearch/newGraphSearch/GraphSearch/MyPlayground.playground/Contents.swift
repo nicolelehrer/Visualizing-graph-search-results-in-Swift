@@ -82,3 +82,49 @@ func returnPathUsingBFS(startNode:Int, endNode:Int){
 
 setAdjacents()
 returnPathUsingBFS(3, endNode:5)
+
+
+
+
+
+
+var something = [1, 2, 3]
+something.removeAll()
+something.removeAll()
+
+
+
+14 % 4
+let sortedKeys = dict.keys.sort({$0.0 < $1.0 })
+
+sortedKeys.first
+sortedKeys.last
+
+sortedKeys
+
+
+13 / 4
+13 / 4 + 13 % 4
+
+
+4*4
+
+
+
+
+
+
+
+let fixColCount = 4
+let spacer:CGFloat = 20.0
+
+let something = Float(560)
+let somethingelse = Float(fixColCount)*Float(20)*Float(spacer)
+
+somethingelse
+
+
+//let offSet:CGPoint = CGPointMake(CGFloat((something - somethingelse)/2), 50)
+
+
+

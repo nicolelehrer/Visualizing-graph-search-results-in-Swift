@@ -98,18 +98,11 @@ class Search{
     }
     
     func emptyPreviousResults(){
-        
-        if queue.count>0{
-            queue.removeAll()
-        }
-        
-        if pathResult.count>0{
-            pathResult.removeAll()
-        }
-        if visited.count>0{
-            visited.removeAll()
-        }
-        
+        queue.removeAll() //safe to call on empty array
+        parents.removeAll()
+        visited.removeAll()
+        pathResult.removeAll()
+
     }
     
     func returnPathUsingBFS(startNode:Int, endNode:Int) -> [Int]?{
@@ -123,4 +116,6 @@ class Search{
             return nil
         }
     }
+    
 }
+
