@@ -3,6 +3,12 @@
 - User selects start and end nodes
 - Highlights the path between the two nodes based on BFS
 
+![alt tag](selectNodes.png "screen shot of start/end nodes")
+![alt tag](pathFound.png "screen shot of path found")
+
+
+
+
 # To do 
 - Need to notify on UI to select another node if disconnected node is selected
 
@@ -13,4 +19,3 @@
 - Use SpriteKit for collision detection to draw better edges
 
 
-![alt tag](pathFound.png "screen shot of path found")
