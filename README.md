@@ -13,4 +13,4 @@
 - Use SpriteKit for collision detection to draw better edges
 
 
-![alt tag](https://raw.github.com/nicolelehrer/Visualizing-BFS-in-Swift/pathFound.png)
+![alt tag](pathFound.png "screen shot of path found")
