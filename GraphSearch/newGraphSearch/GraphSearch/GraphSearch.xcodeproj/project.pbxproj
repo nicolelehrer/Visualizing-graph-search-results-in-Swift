@@ -195,6 +195,7 @@
 				TargetAttributes = {
 					A264AF241B6689D0008DEC7A = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = WKK47LC85F;
 					};
 					A264AF381B6689D0008DEC7A = {
 						CreatedOnToolsVersion = 7.0;
@@ -402,10 +403,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GraphSearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nlehrer.GraphSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -413,10 +417,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = GraphSearch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nlehrer.GraphSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -487,6 +494,7 @@
 				A264AF4F1B6689D0008DEC7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A264AF501B6689D0008DEC7A /* Build configuration list for PBXNativeTarget "GraphSearchTests" */ = {
 			isa = XCConfigurationList;
@@ -495,6 +503,7 @@
 				A264AF521B6689D0008DEC7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A264AF531B6689D0008DEC7A /* Build configuration list for PBXNativeTarget "GraphSearchUITests" */ = {
 			isa = XCConfigurationList;
@@ -503,6 +512,7 @@
 				A264AF551B6689D0008DEC7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

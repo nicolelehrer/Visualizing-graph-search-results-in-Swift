@@ -60,10 +60,10 @@ class ViewController: UIViewController {
     }
     
     func getButtons()->[UIView]{
-        var buttons = [UIView]()
+        var buttons = [UIButton]()
         for subview in view.subviews{
             if subview.isKindOfClass(UIButton) && subview.tag > 0 {
-                buttons.append(subview)
+                buttons.append(subview as! UIButton)
             }
         }
         return buttons
@@ -109,11 +109,10 @@ class ViewController: UIViewController {
         
         let midPoint = calcMidpointBetweenPoints(startPos, pointB:endPos)
         let c1 = CGPointMake(midPoint.x+50, midPoint.y+50)
-        let c2 = c1
         
         let curverPath = UIBezierPath()
         curverPath.moveToPoint(startPos)
-        curverPath.addCurveToPoint(endPos, controlPoint1: c1, controlPoint2: c2)
+        curverPath.addCurveToPoint(endPos, controlPoint1: c1, controlPoint2: c1)  //not making use of second control point for now, see below
         
         let curveLayer = CAShapeLayer()
         curveLayer.path = curverPath.CGPath
@@ -186,7 +185,7 @@ class ViewController: UIViewController {
         if (nodeState == 0){
             startNode = sender.tag
             updateBackgroundColorsAgainstTag(startNode, priorSelectedTag:stopNode)
-            sender.backgroundColor = UIColor.greenColor()
+            sender.backgroundColor = UIColor(red: 168/255.0, green: 228/255.0, blue: 120/255.0, alpha: 1.0)
             print("new start node is \(sender.tag)")
             nodeState = 1
         }
@@ -195,16 +194,33 @@ class ViewController: UIViewController {
             updateBackgroundColorsAgainstTag(stopNode, priorSelectedTag:startNode)
             print("new stop node is \(sender.tag)")
             nodeState = 0
-            sender.backgroundColor = UIColor.redColor()
+            sender.backgroundColor = UIColor(red: 1.0, green: 153/255.0, blue: 155/255.0, alpha: 1)
         }
 
         //self.view.setNeedsDisplay()
     }
-   
+    
+    
+    func doAnimate(var count:Int, pathNodeTags:[Int]){
+        let views = getButtons()
+        UIView.animateWithDuration(0.5, animations: {
+                let highlightedNode = views[pathNodeTags[count]-1]
+                highlightedNode.backgroundColor = UIColor.orangeColor()
+            }, completion: {
+                (value: Bool) in
+                count = count+1
+                if count<pathNodeTags.count{
+                    self.doAnimate(count, pathNodeTags:pathNodeTags)
+                }
+        })
+    }
+
     @IBAction func recalc(sender:UIButton){
         search.emptyPreviousResults() //this is what precludes from auto calc on node selection
         if let sol = search.returnPathUsingBFS(startNode, endNode:stopNode){
-            print(sol)
+            let reversed = Array(sol.reverse())
+            print(reversed)
+            doAnimate(0, pathNodeTags:reversed)
         }
     }
 

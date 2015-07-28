@@ -117,5 +117,10 @@ pow(4.0, 0.5)
 
 //let offSet:CGPoint = CGPointMake(CGFloat((something - somethingelse)/2), 50)
 
+let hey = [1, 2, 3]
+Array(hey.reverse())
+
+hey
+
 
 
