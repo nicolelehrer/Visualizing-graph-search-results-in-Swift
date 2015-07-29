@@ -3,6 +3,8 @@
 - User selects start and end nodes
 - Animates the path between the two nodes based on BFS results
 
+Built in XCode Version 7.0 beta (7A121l)
+
 ![alt tag](selectNodes.png "screen shot of start/end nodes")
 ![alt tag](pathFound.png "screen shot of path found")
 
