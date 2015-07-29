@@ -1,7 +1,7 @@
 # Visualizing-BFS-in-Swift
 - Draws a graph 
 - User selects start and end nodes
-- Highlights the path between the two nodes based on BFS
+- Animates the path between the two nodes based on BFS results
 
 ![alt tag](selectNodes.png "screen shot of start/end nodes")
 ![alt tag](pathFound.png "screen shot of path found")
