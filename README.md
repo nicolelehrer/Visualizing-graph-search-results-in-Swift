@@ -1,4 +1,4 @@
-# Visualizing-BFS-in-Swift
+# Visualizing-graph-search-results-in-Swift
 - Draws a graph 
 - User selects start and end nodes
 - Animates the path between the two nodes based on BFS results
